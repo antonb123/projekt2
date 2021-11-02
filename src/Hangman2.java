@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Hangman2 {
@@ -8,7 +7,6 @@ public class Hangman2 {
     Player player;
     String currentWord;
     ArrayList<Character> placeHolders;
-    ArrayList<Character> missedGuesses;
     int misses;
     char guess;
 
@@ -17,7 +15,6 @@ public class Hangman2 {
         scan = new Scanner(System.in);
         currentWord = null;
         placeHolders = new ArrayList<>();
-        missedGuesses = new ArrayList<>();
         misses = 0;
     }
 
@@ -25,7 +22,9 @@ public class Hangman2 {
         welcome();
         currentWord = randomWord();
         initLists();
+
         System.out.println("Hello " + Player.getName() + ", let the game begin");
+
         while(misses < 6) {
            printInfo();
            printPlaceholders();
@@ -33,8 +32,7 @@ public class Hangman2 {
            enterLetter();
            if (checkGuess(currentWord, guess)) {
                updatePlaceholders(currentWord, placeHolders, guess);
-           } else if (!checkGuess(currentWord, guess)) {
-               updateMissedGuesses(currentWord, missedGuesses, guess);
+           } else {
                misses++;
            }
         }
@@ -46,28 +44,16 @@ public class Hangman2 {
         System.out.println();
     }
 
-    public void printMissedGuesses() {
-        List<Character> temp = new ArrayList<>();
-        System.out.print("Misses:   ");
-        for (int i = 0; i < missedGuesses.size(); i++) {
-           char list = missedGuesses.get(i);
-           temp.add(i, list);
-        }
-        System.out.println(temp);
+    public boolean printMissedGuesses() {
+        System.out.print("Misses: " + misses);
+
         System.out.println();
+        return false;
     }
 
     public void printInfo() {
         System.out.print(Gallows.gallows[misses]);
         System.out.print("Word:   ");
-    }
-
-    public void updateMissedGuesses(String word, ArrayList<Character> placeholders , char guess) {
-        for (int i = 0; i < word.length(); i++) {
-            if (word.charAt(i) != guess) {
-                missedGuesses.add(i, guess);
-            }
-        }
     }
 
     public void updatePlaceholders(String word, ArrayList<Character> placeholders , char guess) {
