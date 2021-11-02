@@ -35,7 +35,7 @@ public class printGallows {
     " +---+\n" +
     " |   |\n" +
     " O   |\n" +
-    "/|\\  |\n" + //if you were wondering, the only way to print '\' is with a trailing escape character, which also happens to be '\'
+    "/|\\  |\n" +
     "     |\n" +
     "     |\n" +
     " =========\n",
@@ -55,4 +55,5 @@ public class printGallows {
     "/ \\  |\n" +
     "     |\n" +
     " =========\n"};
+
 }
