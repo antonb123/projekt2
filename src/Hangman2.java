@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Hangman2 {
     public String[] words;
@@ -16,6 +15,7 @@ public class Hangman2 {
         currentWord = null;
         placeHolders = new ArrayList<>();
         misses = 0;
+
     }
 
     public void run() {
@@ -24,19 +24,42 @@ public class Hangman2 {
         initLists();
 
         System.out.println("Hello " + Player.getName() + ", let the game begin");
+        System.out.println("You have 6 guesses in total");
 
         while(misses < 6) {
            printInfo();
            printPlaceholders();
            printMissedGuesses();
            enterLetter();
+
            if (checkGuess(currentWord, guess)) {
                updatePlaceholders(currentWord, placeHolders, guess);
            } else {
                misses++;
            }
+           if (placeHolders.equals(wordToCharacters(currentWord))) {
+                System.out.print(Gallows.gallows[misses]);
+                System.out.println("The word is: " + currentWord);
+                System.out.println("Well done!");
+                break;
+           }
+        }
+
+        if (misses == 6) {
+            System.out.println(Gallows.gallows[6]);
+            System.out.println("Rest in peace!");
+            System.out.println("The correct word was: " + currentWord + " ");
         }
     }
+
+    public List<Character> wordToCharacters(String word) {
+        List<Character> ch = new ArrayList<>();
+        for (char c : word.toCharArray()) {
+            ch.add(Character.toLowerCase(c));
+        }
+        return ch;
+    }
+
 
     private void enterLetter() {
         System.out.print("Enter one letter:   ");
@@ -46,7 +69,6 @@ public class Hangman2 {
 
     public boolean printMissedGuesses() {
         System.out.print("Misses: " + misses);
-
         System.out.println();
         return false;
     }
