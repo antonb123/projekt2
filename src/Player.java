@@ -9,7 +9,4 @@ public class Player {
         return name;
     }
 
-    public static void setName(String name) {
-        Player.name = name;
-    }
 }

@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Hangman2 {
+public class Hangman {
     public String[] words;
     Scanner scan;
     Player player;
@@ -8,18 +8,26 @@ public class Hangman2 {
     ArrayList<Character> placeHolders;
     int misses;
     char guess;
+    ArrayList<Character> guessedCharacters;
+    boolean playAgain;
+    String choice;
 
-    public Hangman2() {
-        words = new String[] {"pepper", "orange", "citrus", "strawberry", "blueberry"};
+    public Hangman() {
+        words = new String[] {"pepper", "orange", "citrus", "strawberry", "blueberry", "potato"};
         scan = new Scanner(System.in);
         currentWord = null;
         placeHolders = new ArrayList<>();
-        misses = 0;
-
+        guessedCharacters = new ArrayList<>();
+        playAgain = true;
     }
 
     public void run() {
+
+        while (playAgain) {
         welcome();
+        placeHolders.clear();
+        misses = 0;
+        guessedCharacters.clear();
         currentWord = randomWord();
         initLists();
 
@@ -29,13 +37,13 @@ public class Hangman2 {
         while(misses < 6) {
            printInfo();
            printPlaceholders();
+           System.out.println("Your guessed characters: " + guessedCharacters);
            printMissedGuesses();
            enterLetter();
 
            if (checkGuess(currentWord, guess)) {
                updatePlaceholders(currentWord, placeHolders, guess);
-           } else {
-               misses++;
+           } else { misses++;
            }
            if (placeHolders.equals(wordToCharacters(currentWord))) {
                 System.out.print(Gallows.gallows[misses]);
@@ -50,6 +58,13 @@ public class Hangman2 {
             System.out.println("Rest in peace!");
             System.out.println("The correct word was: " + currentWord + " ");
         }
+            System.out.println("Play again? Press anything to continue or no to quit game");
+            choice = scan.nextLine();
+            if (choice.equalsIgnoreCase("no")){
+                System.out.println("Thanks for playing Hangman, have a good day!");
+                playAgain = false;
+            }
+        }
     }
 
     public List<Character> wordToCharacters(String word) {
@@ -60,10 +75,10 @@ public class Hangman2 {
         return ch;
     }
 
-
     private void enterLetter() {
         System.out.print("Enter one letter:   ");
         guess = scan.nextLine().charAt(0);
+        guessedCharacters.add(guess);
         System.out.println();
     }
 
